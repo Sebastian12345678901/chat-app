@@ -9,13 +9,16 @@ export default class Navbar extends Component {
                 <Link to="/" className="navbar-brand"> Exercise tracker </Link>
 
                 <div className="collapse navbar-collapse">
+
                     <ul className="navbar-nav mr-auto">
                         <li className="navbar-item">
                             <Link className="nav-link" to="/">Exercises</Link>
                         </li>
+
                         <li className="navbar-item">
                             <Link className="nav-link" to="/create">Create Exercise Log</Link>
                         </li>
+
                         <li className="navbar-item">
                             <Link className="nav-link" to="/user">Create User</Link>
                         </li>
