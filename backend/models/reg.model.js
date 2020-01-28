@@ -6,19 +6,17 @@ const regSchema = new Schema({
     userID: {
         type: String,
         required: true,
-        unique: true,
         minlength: 3
     },
-    password:{
+    password: {
         type: String,
         required: true,
         minlength: 3
     },
-    email:{
+    email: {
         type: String,
-        required:true,
-        minlength: 3,
-        unique: true
+        required: true,
+        minlength: 3
     }
 
 }, {
