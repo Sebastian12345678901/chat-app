@@ -9,6 +9,7 @@ import axios from "axios"
 export default class LandingPage extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             stage: 0,
             userID: "",
@@ -20,6 +21,11 @@ export default class LandingPage extends Component {
         }
     }
 
+    componentDidMount() {
+        if (localStorage.getItem("user") !== null) {
+            this.setState({ stage: 3 })
+        }
+    }
 
     onChangeUsername = (e) => {
         this.setState({
@@ -50,7 +56,10 @@ export default class LandingPage extends Component {
         })
     }
 
-
+    logout = () => {
+        localStorage.removeItem("user");
+        this.setState({ stage: 0 });
+    }
 
     login = (e) => {
         e.preventDefault();
@@ -60,7 +69,10 @@ export default class LandingPage extends Component {
                 this.setState({ statusMessage: "" })
                 if (user.userID === this.state.usernameLogin) {
                     if (user.password === this.state.passwordLogin) {
-                        console.log("well done");
+
+                        localStorage.setItem("user", user.userID);
+                        this.setState({ stage: 3 });
+
                         this.setState({ statusMessage: "" })
                     } else {
                         this.setState({ statusMessage: "Wrong password!" })
@@ -183,6 +195,16 @@ export default class LandingPage extends Component {
                         </form>
                     </div>
                 }
+
+                {this.state.stage === 3 &&
+
+                    <div>
+
+                        <div className="form-group">
+                            <h3>Welcome {localStorage.getItem("user")}</h3>
+                            <button onClick={this.logout} className="btn btn-primary"> Logout </button>
+                        </div>
+                    </div>}
             </div>
 
         )
