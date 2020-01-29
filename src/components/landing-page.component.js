@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 //import { Link, Redirect } from "react-router-dom"
 import axios from "axios"
-
+import ChatBar from "../components/chat-bar.component"
 
 
 
@@ -143,6 +143,7 @@ export default class LandingPage extends Component {
                         </label>
                                 <input
                                     required
+                                    type="password"
                                     className="form-control"
                                     value={this.state.passwordLogin}
                                     onChange={this.onChangePasswordLogin}
@@ -153,7 +154,9 @@ export default class LandingPage extends Component {
                             </div>
                         </form>
                         <button className="btn btn-secondary" onClick={this.goToReg}>REGME</button>
+                        <ChatBar></ChatBar>
                     </div>
+                    
                 }
                 {this.state.stage === 1 &&
                     <div>
@@ -193,6 +196,7 @@ export default class LandingPage extends Component {
                                 <input type="submit" value="Create new user" className="btn btn-primary" />
                             </div>
                         </form>
+                        <ChatBar ></ChatBar>
                     </div>
                 }
 
@@ -204,6 +208,7 @@ export default class LandingPage extends Component {
                             <h3>Welcome {localStorage.getItem("user")}</h3>
                             <button onClick={this.logout} className="btn btn-primary"> Logout </button>
                         </div>
+                        <ChatBar stage="3"></ChatBar>
                     </div>}
             </div>
 

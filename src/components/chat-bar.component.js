@@ -8,26 +8,102 @@ export default class ChatBar extends Component {
         super(props);
 
         this.state = {
-            loggedIn: false
+            loggedIn: this.props.stage,
+            chatMessage:""
+
         }
     }
+    SendToChat = (e) =>{
+        e.preventDefault();
 
-    componentDidMount() {
-        if (typeof localStorage.getItem("user") === "string") {
-            this.state.loggedIn = true;
-        }
+        
+
     }
+    
+    onChangeChatMessage = (e) => {
+        this.setState({
+            chatMessage: e.target.value
+        })
 
-
+    }
     render() {
         return (
             <div>
-                {this.state.loggedIn === true &&
-                    <h3>Hello!!!</h3>
+                {this.state.loggedIn == 3 &&
+                    <div className="row">
+                        <div className="col-md-4">
+
+                        </div>
+                        <div className="col-md-4">
+                            <form onSubmit={this.SendToChat}>
+                                <input 
+                                required 
+                                   value={this.state.chatMessage}
+                                   onChange={this.onChangeChatMessage} />
+                                    <input type="submit" className="btn btn-primary" value="send" />
+                               
+                            </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+                        <div className="col-md-4">
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 }
 
-                {console.log(this.state.loggedIn)}
+
+
+
+
+
+
+                {this.state.loggedIn != 3 &&
+                    <h1>BLA</h1>
+                }
+
             </div>
         );
     }
