@@ -3,7 +3,7 @@ const User = require("../models/user.model");
 const regUser = require("../models/reg.model");
 
 router.route("/").get((req, res) => {
-    User.find()
+    regUser.find()
         .then(users => res.json(users))
         .catch(err => { res.status(400).json("Error" + err) })
 })
@@ -21,20 +21,18 @@ router.route("/add").post((req, res) => {
 
 
 
-router.route("/reg").post((req,res)=>{
+router.route("/reg").post((req, res) => {
     const userID = req.body.userID;
     const password = req.body.password;
     const email = req.body.email;
 
-    const new1User = new regUser({userID,password,email});
+    const new1User = new regUser({ userID, password, email });
 
     new1User.save()
-    .then(()=>res.json("UserReg"))
-    .catch(err => res.status(400).json("Error: "+ err));
+        .then(() => res.json("UserReg"))
+        .catch(err => res.status(400).json("Error: " + err));
 
 
 })
 
 module.exports = router;
-
-//LOL

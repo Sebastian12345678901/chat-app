@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Link, Redirect } from "react-router-dom"
+//import { Link, Redirect } from "react-router-dom"
 import axios from "axios"
 
 
@@ -10,11 +10,13 @@ export default class LandingPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            stage : 0,
+            stage: 0,
             userID: "",
             password: "",
             email: "",
-            statusMessage:""
+            statusMessage: "",
+            usernameLogin: "",
+            passwordLogin: ""
         }
     }
 
@@ -35,6 +37,43 @@ export default class LandingPage extends Component {
             email: e.target.value
         })
     }
+
+    onChangeUsernameLogin = (e) => {
+        this.setState({
+            usernameLogin: e.target.value
+        })
+
+    }
+    onChangePasswordLogin = (e) => {
+        this.setState({
+            passwordLogin: e.target.value
+        })
+    }
+
+
+
+    login = (e) => {
+        e.preventDefault();
+        axios.get("http://localhost:5000/users/").then(users => {
+
+            users.data.forEach(user => {
+                this.setState({ statusMessage: "" })
+                if (user.userID === this.state.usernameLogin) {
+                    if (user.password === this.state.passwordLogin) {
+                        console.log("well done");
+                        this.setState({ statusMessage: "" })
+                    } else {
+                        this.setState({ statusMessage: "Wrong password!" })
+                    }
+                } else {
+                    this.setState({ statusMessage: "Wrong username!" })
+                }
+            })
+
+        }).catch(error => console.log(error))
+
+    }
+
     onSubmit = (e) => {
         e.preventDefault();
 
@@ -44,17 +83,21 @@ export default class LandingPage extends Component {
             email: this.state.email
         }
 
+
+
         axios.post("http://localhost:5000/users/reg", user)
-            .then(res => {console.log(res.data)
+            .then(res => {
+                console.log(res.data)
                 this.setState({
-                    statusMessage:"Success! you have been registered with username" + user.userID,
-                    stage:0,
-                    password:"",
-                    email:""
-                })}).catch((error) => {
+                    statusMessage: "Success! you have been registered with username" + user.userID,
+                    stage: 0,
+                    password: "",
+                    email: ""
+                })
+            }).catch((error) => {
                 console.log(error);
                 this.setState({
-                    statusMessage:"SOMETHING WENT WRLY WRONG"
+                    statusMessage: "SOMETHING WENT WRLY WRONG"
                 })
             });
 
@@ -65,76 +108,80 @@ export default class LandingPage extends Component {
 
     goToReg = () => {
         this.setState({
-            stage:1
+            stage: 1
         })
     }
     render() {
         return (
             <div>
-            {this.state.stage == 0 &&
-            <div>
-                <label>Login</label><br></br>
-                {this.state.statusMessage}
-            <form onSubmit={this.login}>
-                
-                
-                <label>Username</label>
-                <input required className="form-control"
-                value = {this.state.userID}
-                onChange = {this.onChangeUsername}/>
-                 <div className="form-group">
-                        <label >
-                            Password
+                {this.state.stage === 0 &&
+                    <div>
+                        <label>Login</label><br></br>
+                        {this.state.statusMessage}
+                        <form onSubmit={this.login}>
+
+
+                            <label>Username</label>
+                            <input required className="form-control"
+                                value={this.state.usernameLogin}
+                                onChange={this.onChangeUsernameLogin} />
+                            <div className="form-group">
+                                <label >
+                                    Password
                         </label>
-                        <input
-                            required
-                            className="form-control"
-                            value={this.state.password}
-                            onChange={this.onChangePassword} />
+                                <input
+                                    required
+                                    className="form-control"
+                                    value={this.state.passwordLogin}
+                                    onChange={this.onChangePasswordLogin}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <input type="submit" className="btn btn-primary" value="Login" />
+                            </div>
+                        </form>
+                        <button className="btn btn-secondary" onClick={this.goToReg}>REGME</button>
                     </div>
-            </form>
-            <button class = "btn btn-primary" onClick={this.goToReg}>REGME</button>
-            </div>
-            }
-             {this.state.stage == 1 && 
-             <div>
-                 {this.state.statusMessage}
-                <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                        <label >
-                            Username
+                }
+                {this.state.stage === 1 &&
+                    <div>
+                        {this.state.statusMessage}
+                        <form onSubmit={this.onSubmit}>
+                            <div className="form-group">
+                                <label >
+                                    Username
                         </label>
-                        <input
-                            required
-                            className="form-control"
-                            value={this.state.userID}
-                            onChange={this.onChangeUsername} />
-                    </div>
-                    <div className="form-group">
-                        <label >
-                            Password
+                                <input
+                                    required
+                                    className="form-control"
+                                    value={this.state.userID}
+                                    onChange={this.onChangeUsername} />
+                            </div>
+                            <div className="form-group">
+                                <label >
+                                    Password
                         </label>
-                        <input
-                            required
-                            className="form-control"
-                            value={this.state.password}
-                            onChange={this.onChangePassword} />
-                    </div>
-                    <div className="form-group">
-                        <label >
-                            Email
+                                <input
+                                    required
+                                    className="form-control"
+                                    value={this.state.password}
+                                    onChange={this.onChangePassword} />
+                            </div>
+                            <div className="form-group">
+                                <label >
+                                    Email
                         </label>
-                        <input
-                            required
-                            className="form-control"
-                            value={this.state.email}
-                            onChange={this.onChangeEmail} />
+                                <input
+                                    required
+                                    className="form-control"
+                                    value={this.state.email}
+                                    onChange={this.onChangeEmail} />
+                            </div>
+                            <div className="form-group">
+                                <input type="submit" value="Create new user" className="btn btn-primary" />
+                            </div>
+                        </form>
                     </div>
-                    <div className="form-group">
-                        <input type="submit" value="Create new user" className="btn btn-primary" />
-                    </div>
-                </form>
-                </div>
                 }
             </div>
 
