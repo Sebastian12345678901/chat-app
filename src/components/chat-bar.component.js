@@ -9,14 +9,61 @@ export default class ChatBar extends Component {
 
         this.state = {
             loggedIn: this.props.stage,
-            chatMessage:""
+            chatMessage:"",
+            messageBox:[]
 
         }
     }
+
+    componentDidMount(){
+        let ab = [];
+        axios.get("http://localhost:5000/messages").then(messages => {
+            messages.data.forEach(message =>{
+                let date = new Date(message.createdAt);
+                let h = date.getHours();
+                let m = date.getMinutes();
+                let ft = h + ":"+ m;
+               let  messageObj = {
+                    userName: message.userID,
+                    text:message.message,
+                    createdAt: ft
+                }
+                ab.push(messageObj)
+             this.setState({
+                messageBox:ab
+             })
+             
+            })
+            console.log(this.state.messageBox);
+      })
+    }
+
+
+    messageList=()=>{
+     return this.state.messageBox.map(currentMessage=>{
+         return (<div>
+     <b>{currentMessage.createdAt}</b>:<p>{currentMessage.userName}</p>:<b>{currentMessage.text}</b>
+         </div>)
+     })
+    }
+
     SendToChat = (e) =>{
         e.preventDefault();
 
-        
+        const message = {
+            userID:localStorage.getItem("user"),
+            message:this.state.chatMessage
+
+        }
+
+        axios.post("http://localhost:5000/messages/messagePost", message)
+        .then(res=>{
+            console.log("Sended")
+            this.setState({chatMessage:""})
+        })
+        .catch((error)=> {
+            console.log(error);
+        })
 
     }
     
@@ -29,6 +76,7 @@ export default class ChatBar extends Component {
     render() {
         return (
             <div>
+                {this.messageList()};
                 {this.state.loggedIn == 3 &&
                     <div className="row">
                         <div className="col-md-4">
