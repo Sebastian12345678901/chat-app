@@ -22,7 +22,8 @@ export default class ChatBar extends Component {
     render() {
         return (
             <div>
-                {this.state.loggedIn === true &&
+                {
+                    this.state.loggedIn === true &&
                     <h3>Hello!!!</h3>
 
                 }
