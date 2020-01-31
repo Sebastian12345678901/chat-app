@@ -24,9 +24,11 @@ connection.once('open', () => {
 //Import of routes below
 const exerciseRouter = require("./routes/exercises");
 const usersRouter = require("./routes/users");
+const messageRouter = require("./routes/chatMessage");
 
 app.use("/exercises", exerciseRouter);
 app.use("/users", usersRouter);
+app.use("/messages",messageRouter);
 
 
 app.listen(port, () => {

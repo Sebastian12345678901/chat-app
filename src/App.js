@@ -27,14 +27,10 @@ function App() {
     <Router>
 
       {test()}
-
       <Navbar />
-
       <LandingPage />
-
+     
       <br />
-
-      <ChatBar />
 
 
 
