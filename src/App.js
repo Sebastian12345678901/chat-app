@@ -19,17 +19,15 @@ function App() {
 
 
 
-  function test() {
-    console.log("somehting")
-  }
+
 
   return (
     <Router>
 
-      {test()}
+
       <Navbar />
       <LandingPage />
-     
+
       <br />
 
 
